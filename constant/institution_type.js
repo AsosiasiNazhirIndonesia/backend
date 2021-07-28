@@ -1,0 +1,4 @@
+export const INSTITUTION_TYPE = {
+    UNIVERSITY: "UNIVERSITY",
+    COMPANY: "COMPANY"
+}
