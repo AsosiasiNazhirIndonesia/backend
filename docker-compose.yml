@@ -1,0 +1,14 @@
+version: '3'
+services:
+  ibf-membership-api:
+    container_name: ibf-membership-api
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '80:80'
+    env_file:
+      - ../env/ibf-membership-api.env
+    volumes:
+      - /home/ubuntu/file_directory/images:/file_directory/images
