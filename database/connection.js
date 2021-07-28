@@ -4,8 +4,6 @@ import env from '../config/env';
 const sequelize = new Sequelize(env.DB_NAME, env.DB_USERNAME, env.DB_PASSWORD, {
     host: env.DB_HOST,
     dialect: 'mysql',
-    operatorsAliases: false,
-
     pool: {
         max: 5,
         min: 0,
@@ -15,7 +13,6 @@ const sequelize = new Sequelize(env.DB_NAME, env.DB_USERNAME, env.DB_PASSWORD, {
 });
 
 const connection = {};
-connection.Sequelize = Sequelize;
 connection.sequelize = sequelize;
 
-module.exports = connection;
+export default connection;
