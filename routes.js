@@ -3,6 +3,7 @@ import adminController from './controller/admin_controller';
 import institutionController from './controller/institution_controller';
 import roleController from './controller/role_controller';
 import userController from './controller/user_controller';
+import userHistoryController from './controller/user_history_controller';
 
 const routes = express();
 
@@ -25,5 +26,11 @@ routes.put('/roles', roleController.update);
 routes.delete('/roles', roleController.delete);
 routes.get('/roles', roleController.getAll);
 routes.get('/roles/:role_id', roleController.getByRoleId);
+
+routes.post('/user_history', userHistoryController.add);
+routes.put('/user_history', userHistoryController.update);
+routes.delete('/user_history', userHistoryController.delete);
+routes.get('/user_history', userHistoryController.getAll);
+routes.get('/user_history/:user_history_id', userHistoryController.getByUserHistoryId);
 
 export default routes;
