@@ -76,5 +76,17 @@ userService.getByPublicKey = async (publicKey) => {
     return user;
 }
 
+userService.delete = async (request) => {
+    logger().info(`Delete user, required = ${JSON.stringify(request)}`);
+    const user = await User.findOne({ where: {user_id: request.user_id} });
+    assertNotNull(user, new DataNotFound('user not found'));
+
+    user.deleted_date = new Date().getTime();
+    await user.save();
+
+    logger().info(`Delete user success`);
+    return user;
+}
+
 
 export default userService;

@@ -55,4 +55,8 @@ userValidator.update = Joi.object().keys({
     public_key
 });
 
+userValidator.delete = Joi.object().keys({
+    user_id
+});
+
 export default userValidator;

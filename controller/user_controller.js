@@ -80,4 +80,20 @@ userController.getByPublicKey = async (req, res, next) => {
     }
 }
 
+userController.delete = async (req, res, next) => {
+    try {
+        logger().info(`Delete user request, data = ${JSON.stringify(req.body)}`);
+        const validationResult = userValidator.delete.validate(req.body);
+        if (validationResult.error) {
+            throw new ParamIllegal(validationResult.error.message);
+        }
+        const value = validationResult.value;
+        const result = await userService.delete(value);
+        responseUtil.success(res, result);
+    } catch (e) {
+        logger().error(`Delete user failed, error = ${e}`);
+        responseUtil.fail(res, e);
+    }
+}
+
 export default userController;
