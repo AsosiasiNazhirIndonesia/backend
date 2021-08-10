@@ -16,6 +16,7 @@ routes.put('/users', userController.update);
 routes.get('/users', userController.getAll);
 routes.get('/users/:user_id', userController.getById);
 routes.get('/users/public_key/:public_key', userController.getByPublicKey);
+routes.delete('/users', userController.delete);
 
 routes.post('/institutions', institutionController.add);
 routes.put('/institutions', institutionController.update);

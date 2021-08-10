@@ -66,4 +66,8 @@ userValidator.login = Joi.object().keys({
     signature
 });
 
+userValidator.delete = Joi.object().keys({
+    user_id
+});
+
 export default userValidator;
