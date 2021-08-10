@@ -32,10 +32,16 @@ const photo = Joi.string().allow(null).required().messages({
     "any.required": `photo is required`
 });
 
-const user_id = Joi.string().allow(null).required().messages({
+const user_id = Joi.string().required().messages({
     "string.base": `user_id must be a string`,
     "string.empty": `user_id cannot be an empty`,
     "any.required": `user_id is required`
+});
+
+const signature = Joi.string().required().messages({
+    "string.base": `signature must be a string`,
+    "string.empty": `signature cannot be an empty`,
+    "any.required": `signature is required`
 });
 
 userValidator.add = Joi.object().keys({
@@ -53,6 +59,11 @@ userValidator.update = Joi.object().keys({
     phone_number,
     photo,
     public_key
+});
+
+userValidator.login = Joi.object().keys({
+    user_id,
+    signature
 });
 
 export default userValidator;

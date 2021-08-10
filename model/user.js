@@ -29,6 +29,11 @@ const User = connection.sequelize.define('User',
             type: DataTypes.STRING,
             allowNull: false
         },
+        login_nonce: {
+            type: DataTypes.NUMBER,
+            allowNull: false,
+            defaultValue: 0 
+        },
         created_date: {
             type: DataTypes.NUMBER,
             allowNull: false
