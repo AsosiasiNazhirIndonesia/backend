@@ -84,4 +84,17 @@ userHistoryController.getByUserHistoryId = async (req, res, next) => {
     }
 }
 
+userHistoryController.getByUserId = async (req, res, next) => {
+    try {
+        logger().info(`Query user_history by user_id request`);
+        assertNotNull(req.params, new ParamIllegal('query parameter is required'));
+        assertNotBlank(req.params.user_id, new ParamIllegal('user_id is required'));
+        const result = await userHistoryService.getByUserId(req.params.user_id);
+        responseUtil.success(res, result);
+    } catch (e) {
+        logger().error(`Query user_history by user_id failed, error = ${e}`);
+        responseUtil.fail(res, e);
+    }
+}
+
 export default userHistoryController;

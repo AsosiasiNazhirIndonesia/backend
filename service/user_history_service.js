@@ -84,4 +84,11 @@ userHistoryService.getByUserHistoryId = async (userHistoryId) => {
     return userHistory;
 }
 
+userHistoryService.getByUserId = async (userId) => {
+    logger().info(`Get user_history by user_id = ${userId}`);
+    const userHistory = await UserHistory.findAll({include: [{model: User}, {model: Institution}, {model: Role}], where: {user_id: userId}});
+    logger().info(`Get user_history by user_id success`);
+    return userHistory;
+}
+
 export default userHistoryService;

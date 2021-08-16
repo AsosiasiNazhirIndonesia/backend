@@ -33,5 +33,6 @@ routes.put('/user_history', userHistoryController.update);
 routes.delete('/user_history', userHistoryController.delete);
 routes.get('/user_history', userHistoryController.getAll);
 routes.get('/user_history/:user_history_id', userHistoryController.getByUserHistoryId);
+routes.get('/user_history/user_id/:user_id', userHistoryController.getByUserId);
 
 export default routes;
