@@ -4,6 +4,10 @@ import ParamIllegal from "../error/param_illegal";
 import User from "../model/user";
 import { assertNotNull, assertTrue } from "../util/assert_util";
 import { Op } from "sequelize";
+import jwt from "jsonwebtoken";
+import env from "../config/env";
+import connection from "../database/connection";
+import web3 from "../util/web3";
 
 const userService = {}
 
@@ -74,6 +78,36 @@ userService.getByPublicKey = async (publicKey) => {
     const user = await User.findOne({where : { public_key: publicKey }});
     logger().info(`Get user by publicKey success`);
     return user;
+}
+
+userService.login = async (request) => {
+    logger().info(`Login user, request = ${JSON.stringify(request)}`);
+    const dbTransaction = await connection.sequelize.transaction();
+    try {
+        const user = await User.findOne({where: { user_id: request.user_id }, transaction: dbTransaction, lock: dbTransaction.LOCK.UPDATE});
+        assertNotNull(user, new DataNotFound('user not found'));
+        const message = `${env.PREFIX_SIGNATURE_DATA}${user.login_nonce}`;
+
+        const dataToSign = web3.utils.sha3(message);
+        const address = web3.eth.accounts.recover(dataToSign, request.signature);
+        assertTrue(address === user.public_key, new ParamIllegal('invalid signature'));
+        
+        user.login_nonce = user.login_nonce + 1;
+        user.updated_date = new Date().getTime();
+        await user.save({ transaction: dbTransaction });
+        const payload = {
+            user_id: user.user_id,
+            public_key: user.public_key,
+            role: 'USER'
+        }
+        const token = jwt.sign(payload, env.JWT_SECRET, {expiresIn: env.JWT_TTL });
+        await dbTransaction.commit();
+        logger().info(`Success to login user`);
+        return { token };
+    } catch (e) {
+        await dbTransaction.rollback();
+        throw e;
+    }
 }
 
 userService.delete = async (request) => {

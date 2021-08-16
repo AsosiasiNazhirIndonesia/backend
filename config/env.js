@@ -9,11 +9,14 @@ const env = {
     DB_USERNAME: process.env.DB_USERNAME,
     DB_PASSWORD: process.env.DB_PASSWORD,
     
+    PREFIX_SIGNATURE_DATA: process.env.PREFIX_SIGNATURE_DATA,
     JWT_SECRET: process.env.JWT_SECRET,
     JWT_TTL: process.env.JWT_TTL,
 
     FILE_STORAGE: process.env.FILE_STORAGE,
-    FILE_MAXIMUM_SIZE: process.env.FILE_MAXIMUM_SIZE
+    FILE_MAXIMUM_SIZE: process.env.FILE_MAXIMUM_SIZE,
+
+    ETHER_CLIENT: process.env.ETHER_CLIENT,
 }
 
 export default env;

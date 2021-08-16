@@ -80,6 +80,23 @@ userController.getByPublicKey = async (req, res, next) => {
     }
 }
 
+userController.login = async (req, res, next) => {
+    try {
+        logger().info(`User login request`);
+        const validationResult = userValidator.login.validate(req.body);
+        if (validationResult.error) {
+            throw new ParamIllegal(validationResult.error.message);
+        }
+        const value = validationResult.value;
+        const result = await userService.login(value);
+        responseUtil.success(res, result);
+    } catch(e) {
+        logger().error(`User login failed, error = ${e}`);
+        const result = await userService.delete(value);
+        responseUtil.success(res, result);
+    } 
+}
+
 userController.delete = async (req, res, next) => {
     try {
         logger().info(`Delete user request, data = ${JSON.stringify(req.body)}`);
