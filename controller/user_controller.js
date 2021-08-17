@@ -92,8 +92,7 @@ userController.login = async (req, res, next) => {
         responseUtil.success(res, result);
     } catch(e) {
         logger().error(`User login failed, error = ${e}`);
-        const result = await userService.delete(value);
-        responseUtil.success(res, result);
+        responseUtil.fail(res, e);
     } 
 }
 

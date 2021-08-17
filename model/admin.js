@@ -31,7 +31,8 @@ const Admin = connection.sequelize.define('Admin',
         },
         login_nonce: {
             type: DataTypes.NUMBER,
-            allowNull: false
+            allowNull: false,
+            defaultValue: 0
         },
         created_date: {
             type: DataTypes.NUMBER,

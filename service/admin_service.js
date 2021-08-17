@@ -34,12 +34,12 @@ adminService.login = async (request) => {
         await admin.save({ transaction: dbTransaction });
         const payload = {
             admin_id: admin.admin_id,
-            public_key: user.public_key,
+            public_key: admin.public_key,
             role: 'ADMIN'
         }
         const token = jwt.sign(payload, env.JWT_SECRET, {expiresIn: env.JWT_TTL });
         await dbTransaction.commit();
-        logger().info(`Success to login user`);
+        logger().info(`Success to login admin`);
         return { token };
     } catch (e) {
         await dbTransaction.rollback();
