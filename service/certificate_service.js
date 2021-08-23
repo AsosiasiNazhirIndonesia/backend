@@ -64,4 +64,11 @@ certificateService.getAll = async (orderBy, offset, limit) => {
     return certificates;
 }
 
+certificateService.getByCertificateId = async (certificateId) => {
+    logger().info(`Get certificate by certificate_id = ${certificateId}`);
+    const certificate = await Certificate.findOne({include: [{model: User}, {model:Admin}], where: {certificate_id: certificateId}});
+    logger().info(`Get certificate by certificate_id success`);
+    return certificate;
+}
+
 export default certificateService;
