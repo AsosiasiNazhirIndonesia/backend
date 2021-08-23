@@ -56,6 +56,16 @@ const date = Joi.string().required().messages({
     "any.required": `date is required`
 });
 
+const priority = Joi.number().required().messages({
+    "number.base": `priority must be a number`,
+    "any.required": `priority is required`
+});
+
+const certificate_signer = Joi.object().keys({
+    user_id,
+    priority
+});
+
 certificateValidator.add = Joi.object().keys({
     user_id,
     admin_id,
@@ -65,7 +75,13 @@ certificateValidator.add = Joi.object().keys({
     title,
     description,
     score,
-    date
+    date,
+    certificate_signers: Joi.array().items(certificate_signer).min(1)
+        .required().messages({
+            "array.base": `certificate_signers must be json array`,
+            "array.min": `certificate_signers must include minimum one object`,
+            "any.required": `certificate_signers is required`
+        })
 });
 
 export default certificateValidator;
