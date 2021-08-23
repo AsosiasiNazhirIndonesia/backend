@@ -1,5 +1,6 @@
 import express from 'express';
 import adminController from './controller/admin_controller';
+import certificateController from './controller/certificate_controller';
 import institutionController from './controller/institution_controller';
 import roleController from './controller/role_controller';
 import userController from './controller/user_controller';
@@ -36,5 +37,7 @@ routes.delete('/user_history', userHistoryController.delete);
 routes.get('/user_history', userHistoryController.getAll);
 routes.get('/user_history/:user_history_id', userHistoryController.getByUserHistoryId);
 routes.get('/user_history/user_id/:user_id', userHistoryController.getByUserId);
+
+routes.post('/certificates', certificateController.add);
 
 export default routes;
