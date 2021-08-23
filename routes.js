@@ -39,5 +39,6 @@ routes.get('/user_history/:user_history_id', userHistoryController.getByUserHist
 routes.get('/user_history/user_id/:user_id', userHistoryController.getByUserId);
 
 routes.post('/certificates', certificateController.add);
+routes.get('/certificates/:certificate_id', certificateController.getByCertificateId);
 
 export default routes;

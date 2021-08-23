@@ -1,5 +1,7 @@
 import { logger } from "express-glass"
+import Admin from "../model/admin";
 import Certificate from "../model/certificate";
+import User from "../model/user";
 
 const certificateService = {}
 
@@ -22,6 +24,13 @@ certificateService.add = async (request) => {
     });
 
     logger().info(`Add new certificate success`);
+    return certificate;
+}
+
+certificateService.getByCertificateId = async (certificateId) => {
+    logger().info(`Get certificate by certificate_id = ${certificateId}`);
+    const certificate = await Certificate.findOne({include: [{model: User}, {model:Admin}], where: {certificate_id: certificateId}});
+    logger().info(`Get certificate by certificate_id success`);
     return certificate;
 }
 

@@ -1,6 +1,7 @@
 import { logger } from "express-glass";
 import ParamIllegal from "../error/param_illegal";
 import certificateService from "../service/certificate_service";
+import { assertNotBlank, assertNotNull } from "../util/assert_util";
 import responseUtil from "../util/response_util";
 import certificateValidator from "../validator/certificate_validator";
 
@@ -18,6 +19,19 @@ certificateController.add = async (req, res, next) => {
         responseUtil.success(res, result);
     } catch (e) {
         logger().info(`Add new institution failed, error = ${e}`);
+        responseUtil.fail(res, e);
+    }
+}
+
+certificateController.getByCertificateId = async (req, res, next) => {
+    try {
+        logger().info(`Query certificate by certificate_id request`);
+        assertNotNull(req.params, new ParamIllegal('query is required'));
+        assertNotBlank(req.params.certificate_id, new ParamIllegal('certificate_id is required'));
+        const result = await certificateService.getByCertificateId(req.params.certificate_id);
+        responseUtil.success(res, result);
+    } catch (e) {
+        logger().error(`Query certificate by certificate_id failed, error = ${e}`);
         responseUtil.fail(res, e);
     }
 }
