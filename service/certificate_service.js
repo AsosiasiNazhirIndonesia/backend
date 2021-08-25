@@ -25,6 +25,7 @@ certificateService.add = async (request) => {
             user_id: request.user_id,
             admin_id: request.admin_id,
             title: request.title,
+            receiver_name: request.receiver_name,
             sc_address: request.sc_address,
             no: request.no,
             description: request.description,

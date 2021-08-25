@@ -20,6 +20,10 @@ const Certificate = connection.sequelize.define('Certificate',
             type: DataTypes.STRING,
             allowNull: false
         },
+        receiver_name: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         sc_address: {
             type: DataTypes.STRING,
             allowNull: false

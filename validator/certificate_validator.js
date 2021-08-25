@@ -20,6 +20,12 @@ const name = Joi.string().required().messages({
     "any.required": `name is required`
 });
 
+const receiver_name = Joi.string().required().messages({
+    "string.base": `receiver_name must be a string`,
+    "string.empty": `receiver_name cannot be an empty`,
+    "any.required": `receiver_name is required`
+});
+
 const sc_address = Joi.string().required().messages({
     "string.base": `sc_address must be a string`,
     "string.empty": `sc_address cannot be an empty`,
@@ -69,6 +75,7 @@ const certificate_signer = Joi.object().keys({
 certificateValidator.add = Joi.object().keys({
     user_id,
     admin_id,
+    receiver_name,
     sc_address,
     name,
     no,

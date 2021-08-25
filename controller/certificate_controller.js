@@ -18,7 +18,7 @@ certificateController.add = async (req, res, next) => {
         const result = await certificateService.add(value);
         responseUtil.success(res, result);
     } catch (e) {
-        logger().info(`Add new institution failed, error = ${e}`);
+        logger().info(`Add new certificate failed, error = ${e}`);
         responseUtil.fail(res, e);
     }
 }
