@@ -23,6 +23,20 @@ certificateController.add = async (req, res, next) => {
     }
 }
 
+certificateController.getAll = async (req, res, next) => {
+    try {
+        logger().info(`Query all certificates`);
+        assertNotNull(req.query, new ParamIllegal('query url is required'));
+        assertNotBlank(req.query.order_by, new ParamIllegal('order_by is required'));
+        assertNotBlank(req.query.offset, new ParamIllegal('offset is required'));
+        assertNotBlank(req.query.limit, new ParamIllegal('limit is required'));
+        const result = await certificateService.getAll(req.query.order_by, req.query.offset, req.query.limit);
+        responseUtil.success(res, result);
+    } catch (e) {
+        logger().error(`Query all certificates failed, error = ${e}`);
+    }
+}
+
 certificateController.getByCertificateId = async (req, res, next) => {
     try {
         logger().info(`Query certificate by certificate_id request`);

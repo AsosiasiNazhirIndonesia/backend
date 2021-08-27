@@ -2,6 +2,7 @@ import connection from "../database/connection";
 import { DataTypes, UUIDV1 } from "sequelize";
 import User from "./user";
 import Admin from "./admin";
+import CertificateSigner from "./certificate_signer";
 
 const Certificate = connection.sequelize.define('Certificate', 
     {
@@ -77,6 +78,12 @@ Certificate.hasOne(Admin, {
 });
 Certificate.belongsTo(Admin, {
     foreignKey: 'admin_id'
+});
+Certificate.hasMany(CertificateSigner, {
+    foreignKey: 'certificate_id'
+});
+Certificate.belongsTo(CertificateSigner, {
+    foreignKey: 'certificate_id'
 });
 
 export default Certificate;
