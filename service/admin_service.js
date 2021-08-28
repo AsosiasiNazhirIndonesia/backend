@@ -7,8 +7,59 @@ import { assertNotNull, assertTrue } from "../util/assert_util";
 import web3 from "../util/web3";
 import jwt from "jsonwebtoken";
 import ParamIllegal from "../error/param_illegal";
+import { Op } from "sequelize";
 
 const adminService = {}
+
+adminService.add = async (request) => {
+    logger().info(`Add new admin, request = ${JSON.stringify(request)}`);
+
+    assertTrue( !(await Admin.findOne({ where: {email: request.email} })), 
+        new ParamIllegal('email already registered'));
+    assertTrue( !(await Admin.findOne({ where: {phone_number: request.phone_number} })),
+        new ParamIllegal('phone_number already registered'));
+    assertTrue( !(await Admin.findOne({ where: {public_key: request.public_key} })),
+        new ParamIllegal('public_key already registered'));
+
+    const admin = await Admin.create({
+        name: request.name,
+        photo: request.photo,
+        email: request.email,
+        phone_number: request.phone_number,
+        admin_role: request.admin_role,
+        public_key: request.public_key,
+        created_date: new Date().getTime(),
+        updated_date: null,
+        deleted_date: null
+    });
+
+    logger().info(`Add new admin success`);
+    return admin;
+}
+
+adminService.update = async (request) => {
+    logger().info(`Update admin, request = ${JSON.stringify(request)}`);
+    const admin = await Admin.findOne({ where: {admin_id: request.admin_id} });
+    assertNotNull(admin, new DataNotFound('admin not found'));
+    assertTrue( !(await Admin.findOne({ where: { [Op.and] : { admin_id: { [Op.ne] : request.admin_id }, email: request.email}}})),
+        new ParamIllegal('email already registered'));
+    assertTrue( !(await Admin.findOne({ where: { [Op.and] : { admin_id: { [Op.ne] : request.admin_id }, phone_number: request.phone_number}}})),
+        new ParamIllegal('phone_number already registered'));
+    assertTrue( !(await Admin.findOne({ where: { [Op.and] : { admin_id: { [Op.ne] : request.admin_id}, public_key: request.public_key}}})),
+        new ParamIllegal('public_key already registered'));
+
+    admin.name = request.name;
+    admin.photo = request.photo;
+    admin.email = request.email;
+    admin.phone_number = request.phone_number;
+    admin.admin_role = request.admin_role;
+    admin.public_key = request.public_key;
+    admin.updated_date = new Date().getTime();
+    await admin.save();
+
+    logger().info(`Update admin success`);
+    return admin;
+}
 
 adminService.getByPublicKey = async (publicKey) => {
     logger().info(`Get admin by publickKey = ${publicKey}`);

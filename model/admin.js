@@ -25,6 +25,10 @@ const Admin = connection.sequelize.define('Admin',
             type: DataTypes.STRING,
             allowNull: false
         },
+        admin_role: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         public_key: {
             type: DataTypes.STRING,
             allowNull: false

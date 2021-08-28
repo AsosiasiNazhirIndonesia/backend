@@ -8,6 +8,8 @@ import userHistoryController from './controller/user_history_controller';
 
 const routes = express();
 
+routes.post('/admins', adminController.add);
+routes.put('/admins', adminController.update);
 routes.get('/admins/public_key/:public_key', adminController.getByPublicKey);
 routes.post('/admins/login', adminController.login);
 

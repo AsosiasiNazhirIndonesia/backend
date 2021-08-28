@@ -7,6 +7,38 @@ import adminValidator from "../validator/admin_validator";
 
 const adminController = {}
 
+adminController.add = async (req, res, next) => {
+    try {
+        logger().info(`Add new admin request, data = ${JSON.stringify(req.body)}`);
+        const validationResult = adminValidator.add.validate(req.body);
+        if (validationResult.error) {
+            throw new ParamIllegal(validationResult.error.message);
+        }
+        const value = validationResult.value;
+        const result = await adminService.add(value);
+        responseUtil.success(res, result);
+    } catch (e) {
+        logger().error(`Add new admin failed, error = ${e}`);
+        responseUtil.fail(res, e);
+    }
+}
+
+adminController.update = async (req, res, next) => {
+    try {
+        logger(`Update admin request, data = ${JSON.stringify(req.body)}`);
+        const validationResult = adminValidator.update.validate(req.body);
+        if (validationResult.error) {
+            throw new ParamIllegal(validationResult.error.message);
+        }
+        const value = validationResult.value;
+        const result = await adminService.update(value);
+        responseUtil.success(res, result);
+    } catch (e) {
+        logger().error(`Update admin failed, error = ${e}`);
+        responseUtil.fail(res, e);
+    }
+}
+
 adminController.getByPublicKey = async (req, res, next) => {
     try {
         logger().info(`Query admin by publicKey request`);
