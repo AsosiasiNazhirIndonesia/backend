@@ -66,8 +66,15 @@ certificateService.getAll = async (orderBy, offset, limit) => {
 
 certificateService.getByCertificateId = async (certificateId) => {
     logger().info(`Get certificate by certificate_id = ${certificateId}`);
-    const certificate = await Certificate.findOne({include: [{model: User}, {model:Admin}], where: {certificate_id: certificateId}});
+    const certificate = await Certificate.findOne({include: [{model: User}, {model:Admin}, {model: CertificateSigner, include: {model:User}}], where: {certificate_id: certificateId}});
     logger().info(`Get certificate by certificate_id success`);
+    return certificate;
+}
+
+certificateService.getByScAddress = async (scAddress) => {
+    logger().info(`Get certificate by sc_address = ${scAddress}`);
+    const certificate = await Certificate.findOne({include: [{model: User}, {model:Admin}, {model: CertificateSigner, include: {model:User}}], where: {sc_address: scAddress}});
+    logger().info(`Get certificate by sc_address success`);
     return certificate;
 }
 

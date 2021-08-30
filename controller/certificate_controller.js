@@ -50,4 +50,17 @@ certificateController.getByCertificateId = async (req, res, next) => {
     }
 }
 
+certificateController.getByScAddress = async (req, res, next) => {
+    try {
+        logger().info(`Query certificate by sc_address request`);
+        assertNotNull(req.params, new ParamIllegal('query is required'));
+        assertNotBlank(req.params.sc_address, new ParamIllegal('sc_address is required'));
+        const result = await certificateService.getByScAddress(req.params.sc_address);
+        responseUtil.success(res, result);
+    } catch (e) {
+        logger().error(`Query certificate by sc_address failed, error = ${e}`);
+        responseUtil.fail(res, e);
+    }
+}
+
 export default certificateController;
