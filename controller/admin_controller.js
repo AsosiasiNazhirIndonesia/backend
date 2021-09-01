@@ -52,6 +52,23 @@ adminController.getByPublicKey = async (req, res, next) => {
     }
 }
 
+adminController.getAll = async (req, res, next) => {
+    try {
+        logger().info(`Query all admins`);
+        assertNotNull(req.query, new ParamIllegal('query parameter is required'));
+        assertNotBlank(req.query.order_by, new ParamIllegal('order_by is required'));
+        assertNotBlank(req.query.order_type, new ParamIllegal('order_type is required'));
+        assertNotBlank(req.query.offset, new ParamIllegal('offset is required'));
+        assertNotBlank(req.query.limit, new ParamIllegal('limit is required'));
+        const result = await adminService.getAll(
+            req.query.order_by, req.query.order_type, req.query.offset, req.query.limit);
+        responseUtil.success(res, result);
+    } catch (e) {
+        logger().error(`Query all admins request failed, error = ${e}`);
+        responseUtil.fail(res, e);
+    }
+}
+
 adminController.login = async (req, res, next) => {
     try {
         logger().info(`Admin login request`);

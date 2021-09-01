@@ -1,5 +1,6 @@
 import connection from "../database/connection";
 import { DataTypes, UUIDV1 } from "sequelize";
+import Institution from "./institution";
 
 const Admin = connection.sequelize.define('Admin', 
     {
@@ -29,6 +30,10 @@ const Admin = connection.sequelize.define('Admin',
             type: DataTypes.STRING,
             allowNull: false
         },
+        institution_id: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         public_key: {
             type: DataTypes.STRING,
             allowNull: false
@@ -56,5 +61,11 @@ const Admin = connection.sequelize.define('Admin',
         timestamps: false
     }
 );
+Admin.hasOne(Institution, {
+    foreignKey: 'institution_id'
+});
+Admin.belongsTo(Institution, {
+    foreignKey: 'institution_id'
+});
 
 export default Admin;

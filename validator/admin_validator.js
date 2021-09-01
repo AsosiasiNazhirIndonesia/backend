@@ -51,13 +51,20 @@ const signature = Joi.string().required().messages({
     "any.required": `signature is required`
 });
 
+const institution_id = Joi.string().allow(null).required().messages({
+    "string.base": `institution_id must be a string`,
+    "string.empty": `institution_id cannot be an empty`,
+    "any.required": `institution_id is required`
+});
+
 adminValidator.add = Joi.object().keys({
     name,
     photo,
     email,
     phone_number,
     admin_role,
-    public_key
+    public_key,
+    institution_id
 });
 
 adminValidator.update = Joi.object().keys({
@@ -67,7 +74,8 @@ adminValidator.update = Joi.object().keys({
     email,
     phone_number,
     admin_role,
-    public_key
+    public_key,
+    institution_id
 });
 
 adminValidator.login = Joi.object().keys({

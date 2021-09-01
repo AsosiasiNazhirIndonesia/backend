@@ -61,7 +61,7 @@ userService.update = async (request) => {
 
 userService.getAll = async (orderBy, offset, limit) => {
     logger().info(`Get all users orderBy = ${orderBy} offset = ${offset} limit = ${limit}`);
-    const users = await User.findAll({order: [ orderBy ], offset: Number(offset), limit: Number(limit)});
+    const users = await User.findAll({where: {deleted_date: {[Op.eq]: null}}},{order: [ orderBy ], offset: Number(offset), limit: Number(limit)});
     logger().info(`Get all users success`);
     return users;
 }

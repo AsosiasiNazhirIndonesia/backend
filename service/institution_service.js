@@ -65,7 +65,7 @@ institutionService.delete = async (request) => {
 
 institutionService.getAll = async (orderBy, offset, limit) => {
     logger().info(`Get all institutions orderBy = ${orderBy} offset = ${offset} limit = ${limit}`);
-    const institution = await Institution.findAll({order: [ orderBy ], offset: Number(offset), limit: Number(limit)});
+    const institution = await Institution.findAll({where: {deleted_date: { [Op.eq]: null}}, order: [ [orderBy, 'DESC'] ], offset: Number(offset), limit: Number(limit)});
     logger().info(`Get all institutions sucess`);
     return institution;
 }

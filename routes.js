@@ -1,6 +1,7 @@
 import express from 'express';
 import adminController from './controller/admin_controller';
 import certificateController from './controller/certificate_controller';
+import fileController from './controller/file_controller';
 import institutionController from './controller/institution_controller';
 import roleController from './controller/role_controller';
 import userController from './controller/user_controller';
@@ -10,6 +11,7 @@ const routes = express();
 
 routes.post('/admins', adminController.add);
 routes.put('/admins', adminController.update);
+routes.get('/admins', adminController.getAll);
 routes.get('/admins/public_key/:public_key', adminController.getByPublicKey);
 routes.post('/admins/login', adminController.login);
 
@@ -44,5 +46,8 @@ routes.post('/certificates', certificateController.add);
 routes.get('/certificates', certificateController.getAll);
 routes.get('/certificates/:certificate_id', certificateController.getByCertificateId);
 routes.get('/certificates/sc_address/:sc_address', certificateController.getByScAddress);
+
+routes.post('/files', fileController.upload);
+routes.get('/files/:name', fileController.download);
 
 export default routes;
