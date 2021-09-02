@@ -8,6 +8,9 @@ import jwt from "jsonwebtoken";
 import env from "../config/env";
 import connection from "../database/connection";
 import web3 from "../util/web3";
+import UserHistory from "../model/user_history";
+import Role from "../model/role";
+import Institution from "../model/institution";
 
 const userService = {}
 
@@ -61,7 +64,7 @@ userService.update = async (request) => {
 
 userService.getAll = async (orderBy, offset, limit) => {
     logger().info(`Get all users orderBy = ${orderBy} offset = ${offset} limit = ${limit}`);
-    const users = await User.findAll({where: {deleted_date: {[Op.eq]: null}}},{order: [ orderBy ], offset: Number(offset), limit: Number(limit)});
+    const users = await User.findAll({where: {deleted_date: {[Op.eq]: null}}, include: [{model: UserHistory, include: [{model: Role}, {model: Institution}]}]},{order: [ orderBy ], offset: Number(offset), limit: Number(limit)});
     logger().info(`Get all users success`);
     return users;
 }

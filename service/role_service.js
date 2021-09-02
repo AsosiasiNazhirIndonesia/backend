@@ -10,7 +10,7 @@ const roleService = {}
 roleService.add = async (request) => {
     logger().info(`Add new role, request = ${JSON.stringify(request)}`);
 
-    assertTrue( !(await Role.findOne({ where: {name: request.name} })), 
+    assertTrue( !(await Role.findOne({ where: {name: request.name, deleted_date: {[Op.eq]: null}} })), 
         new ParamIllegal('name already registered'));
 
     const role = await Role.create({
