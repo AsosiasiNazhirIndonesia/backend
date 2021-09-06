@@ -68,6 +68,12 @@ const date = Joi.string().required().messages({
     "any.required": `date is required`
 });
 
+const certificate_id = Joi.string().required().messages({
+    "string.base": `certificate_id must be a string`,
+    "string.empty": `certificate_id cannot be an empty`,
+    "any.required": `certificate_id is required`
+});
+
 const priority = Joi.number().required().messages({
     "number.base": `priority must be a number`,
     "any.required": `priority is required`
@@ -96,6 +102,11 @@ certificateValidator.add = Joi.object().keys({
             "array.min": `certificate_signers must include minimum one object`,
             "any.required": `certificate_signers is required`
         })
+});
+
+certificateValidator.sign = Joi.object().keys({
+    user_id,
+    certificate_id
 });
 
 export default certificateValidator;

@@ -43,6 +43,7 @@ routes.get('/user_history/:user_history_id', userHistoryController.getByUserHist
 routes.get('/user_history/user_id/:user_id', userHistoryController.getByUserId);
 
 routes.post('/certificates', certificateController.add);
+routes.post('/certificates/signing', certificateController.sign);
 routes.get('/certificates', certificateController.getAll);
 routes.get('/certificates/:certificate_id', certificateController.getByCertificateId);
 routes.get('/certificates/sc_address/:sc_address', certificateController.getByScAddress);

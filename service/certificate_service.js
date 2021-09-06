@@ -1,4 +1,5 @@
 import { logger } from "express-glass";
+import { Op } from "sequelize";
 import connection from "../database/connection";
 import DataNotFound from "../error/data_not_found";
 import Admin from "../model/admin";
@@ -6,6 +7,7 @@ import Certificate from "../model/certificate";
 import CertificateSigner from "../model/certificate_signer";
 import User from "../model/user";
 import { assertNotNull } from "../util/assert_util";
+import { notifySigner } from "../util/send_email";
 
 const certificateService = {}
 
@@ -51,12 +53,23 @@ certificateService.add = async (request) => {
         logger().info(`Add new certificate success`);
         await dbTransaction.commit();
         const result = await Certificate.findOne({where: {certificate_id: certificate.certificate_id}});
+        notifySigner(result.certificate_id);
         return result;
     } catch(e) {
         logger().error(`Add new certificate failed`);
         await dbTransaction.rollback();
         throw e;
     }
+}
+
+certificateService.signing = async (request) => {
+    logger().info(`Signing certificate request = ${JSON.stringify(request)}`);
+    const certificateSigner = await CertificateSigner.findOne({where: {certificate_id: request.certificate_id, user_id: request.user_id}});
+    certificateSigner.is_sign = true;
+    certificateSigner.updated_date = new Date().getTime();
+    await certificateSigner.save();
+    notifySigner(certificateSigner.certificate_id);
+    logger().info(`Success to signing certificate`);
 }
 
 certificateService.getAll = async (orderBy, offset, limit) => {
@@ -75,7 +88,8 @@ certificateService.getByAdmin = async (adminId, orderBy, offset, limit) => {
 
 certificateService.getByUser = async (userId, orderBy, offset, limit) => {
     logger().info(`Get certificates by userId = ${userId} orderBy = ${orderBy} offset = ${offset} limit = ${limit}`);
-    const certificates = await Certificate.findAll({where: {user_id: userId}, include: [{model: User}, {model: Admin}, {model: CertificateSigner, include: User}]}, {order: [ [orderBy, "DESC"] ], offset: Number(offset), limit: Number(limit)});
+    const certificateSigners = await CertificateSigner.findAll({where: {user_id: userId}});
+    const certificates = await Certificate.findAll({where: {[Op.or]: [{user_id: userId}, {certificate_id: {[Op.in]: [certificateSigners.map((o) => { return o.certificate_id;})]} }] }, include: [{model: User}, {model: Admin}, {model: CertificateSigner, include: User}]}, {order: [ [orderBy, "DESC"] ], offset: Number(offset), limit: Number(limit)});
     logger().info(`Get certificates by userId sucess`);
     return certificates;
 }

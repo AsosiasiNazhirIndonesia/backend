@@ -17,6 +17,9 @@ const env = {
     FILE_MAXIMUM_SIZE: process.env.FILE_MAXIMUM_SIZE,
 
     ETHER_CLIENT: process.env.ETHER_CLIENT,
+
+    MAILER_ADDRESS: process.env.MAILER_ADDRESS,
+    MAILER_PASSWORD: process.env.MAILER_PASSWORD,
 }
 
 export default env;

@@ -18,7 +18,23 @@ certificateController.add = async (req, res, next) => {
         const result = await certificateService.add(value);
         responseUtil.success(res, result);
     } catch (e) {
-        logger().info(`Add new institution failed, error = ${e}`);
+        logger().info(`Add new certificate failed, error = ${e}`);
+        responseUtil.fail(res, e);
+    }
+}
+
+certificateController.sign = async (req, res, next) => {
+    try {
+        logger().info(`Signing certificate request, data = ${JSON.stringify(req.body)}`);
+        const validationResult = certificateValidator.sign.validate(req.body);
+        if (validationResult.error) {
+            throw new ParamIllegal(validationResult.error.message);
+        }
+        const value = validationResult.value;
+        await certificateService.signing(value);
+        responseUtil.success(res, {});
+    } catch (e) {
+        logger().info(`Signing certificate failed, error = ${e}`);
         responseUtil.fail(res, e);
     }
 }
