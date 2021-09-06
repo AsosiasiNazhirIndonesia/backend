@@ -5,6 +5,7 @@ import Role from "../model/role";
 import UserHistory from "../model/user_history";
 import { assertNotNull } from "../util/assert_util";
 import DataNotFound from "../error/data_not_found";
+import { Op } from "sequelize";
 
 
 const userHistoryService = {}
@@ -72,21 +73,21 @@ userHistoryService.delete = async (request) => {
 
 userHistoryService.getAll = async (orderBy, offset, limit) => {
     logger().info(`Get all user_history orderBy = ${orderBy} offset = ${offset} limit = ${limit}`);
-    const userHistory = await UserHistory.findAll({include: [{model: User}, {model: Institution}, {model: Role}], order: [orderBy], offset: Number(offset), limit: Number(limit)});
+    const userHistory = await UserHistory.findAll({include: [{model: Institution}, {model: Role}], order: [orderBy], offset: Number(offset), limit: Number(limit)});
     logger().info(`Get all user_history success`);
     return userHistory;
 }
 
 userHistoryService.getByUserHistoryId = async (userHistoryId) => {
     logger().info(`Get user_history by user_history_id = ${userHistoryId}`);
-    const userHistory = await UserHistory.findOne({include: [{model: User}, {model: Institution}, {model: Role}], where: {user_history_id: userHistoryId}});
+    const userHistory = await UserHistory.findOne({include: [{model: Institution}, {model: Role}], where: {user_history_id: userHistoryId}});
     logger().info(`Get user_history by user_history_id success`);
     return userHistory;
 }
 
 userHistoryService.getByUserId = async (userId) => {
     logger().info(`Get user_history by user_id = ${userId}`);
-    const userHistory = await UserHistory.findAll({include: [{model: User}, {model: Institution}, {model: Role}], where: {user_id: userId}});
+    const userHistory = await UserHistory.findAll({include: [{model: Institution}, {model: Role}], where: {user_id: userId, deleted_date: { [Op.eq]: null }}});
     logger().info(`Get user_history by user_id success`);
     return userHistory;
 }

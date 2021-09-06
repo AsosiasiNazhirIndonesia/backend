@@ -23,6 +23,22 @@ certificateController.add = async (req, res, next) => {
     }
 }
 
+certificateController.sign = async (req, res, next) => {
+    try {
+        logger().info(`Signing certificate request, data = ${JSON.stringify(req.body)}`);
+        const validationResult = certificateValidator.sign.validate(req.body);
+        if (validationResult.error) {
+            throw new ParamIllegal(validationResult.error.message);
+        }
+        const value = validationResult.value;
+        await certificateService.signing(value);
+        responseUtil.success(res, {});
+    } catch (e) {
+        logger().info(`Signing certificate failed, error = ${e}`);
+        responseUtil.fail(res, e);
+    }
+}
+
 certificateController.getAll = async (req, res, next) => {
     try {
         logger().info(`Query all certificates`);
@@ -37,6 +53,36 @@ certificateController.getAll = async (req, res, next) => {
     }
 }
 
+certificateController.getByAdmin = async (req, res, next) => {
+    try {
+        logger().info(`Query certificates by Admin`);
+        assertNotBlank(req.params.admin_id, new ParamIllegal('admin_id is required'));
+        assertNotNull(req.query, new ParamIllegal('query url is required'));
+        assertNotBlank(req.query.order_by, new ParamIllegal('order_by is required'));
+        assertNotBlank(req.query.offset, new ParamIllegal('offset is required'));
+        assertNotBlank(req.query.limit, new ParamIllegal('limit is required'));
+        const result = await certificateService.getByAdmin(req.params.admin_id, req.query.order_by, req.query.offset, req.query.limit);
+        responseUtil.success(res, result);
+    } catch (e) {
+        logger().error(`Query certificates by Admin failed, error = ${e}`);
+    }
+}
+
+certificateController.getByUser = async (req, res, next) => {
+    try {
+        logger().info(`Query certificates by Admin`);
+        assertNotBlank(req.params.user_id, new ParamIllegal('user_id is required'));
+        assertNotNull(req.query, new ParamIllegal('query url is required'));
+        assertNotBlank(req.query.order_by, new ParamIllegal('order_by is required'));
+        assertNotBlank(req.query.offset, new ParamIllegal('offset is required'));
+        assertNotBlank(req.query.limit, new ParamIllegal('limit is required'));
+        const result = await certificateService.getByUser(req.params.user_id, req.query.order_by, req.query.offset, req.query.limit);
+        responseUtil.success(res, result);
+    } catch (e) {
+        logger().error(`Query certificates by Admin failed, error = ${e}`);
+    }
+}
+
 certificateController.getByCertificateId = async (req, res, next) => {
     try {
         logger().info(`Query certificate by certificate_id request`);
@@ -46,6 +92,19 @@ certificateController.getByCertificateId = async (req, res, next) => {
         responseUtil.success(res, result);
     } catch (e) {
         logger().error(`Query certificate by certificate_id failed, error = ${e}`);
+        responseUtil.fail(res, e);
+    }
+}
+
+certificateController.getByScAddress = async (req, res, next) => {
+    try {
+        logger().info(`Query certificate by sc_address request`);
+        assertNotNull(req.params, new ParamIllegal('query is required'));
+        assertNotBlank(req.params.sc_address, new ParamIllegal('sc_address is required'));
+        const result = await certificateService.getByScAddress(req.params.sc_address);
+        responseUtil.success(res, result);
+    } catch (e) {
+        logger().error(`Query certificate by sc_address failed, error = ${e}`);
         responseUtil.fail(res, e);
     }
 }

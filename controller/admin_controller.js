@@ -7,6 +7,38 @@ import adminValidator from "../validator/admin_validator";
 
 const adminController = {}
 
+adminController.add = async (req, res, next) => {
+    try {
+        logger().info(`Add new admin request, data = ${JSON.stringify(req.body)}`);
+        const validationResult = adminValidator.add.validate(req.body);
+        if (validationResult.error) {
+            throw new ParamIllegal(validationResult.error.message);
+        }
+        const value = validationResult.value;
+        const result = await adminService.add(value);
+        responseUtil.success(res, result);
+    } catch (e) {
+        logger().error(`Add new admin failed, error = ${e}`);
+        responseUtil.fail(res, e);
+    }
+}
+
+adminController.update = async (req, res, next) => {
+    try {
+        logger(`Update admin request, data = ${JSON.stringify(req.body)}`);
+        const validationResult = adminValidator.update.validate(req.body);
+        if (validationResult.error) {
+            throw new ParamIllegal(validationResult.error.message);
+        }
+        const value = validationResult.value;
+        const result = await adminService.update(value);
+        responseUtil.success(res, result);
+    } catch (e) {
+        logger().error(`Update admin failed, error = ${e}`);
+        responseUtil.fail(res, e);
+    }
+}
+
 adminController.getByPublicKey = async (req, res, next) => {
     try {
         logger().info(`Query admin by publicKey request`);
@@ -16,6 +48,23 @@ adminController.getByPublicKey = async (req, res, next) => {
         responseUtil.success(res, result);
     } catch (e) {
         logger().error(`Query admin by publicKey request failed, error = ${e}`);
+        responseUtil.fail(res, e);
+    }
+}
+
+adminController.getAll = async (req, res, next) => {
+    try {
+        logger().info(`Query all admins`);
+        assertNotNull(req.query, new ParamIllegal('query parameter is required'));
+        assertNotBlank(req.query.order_by, new ParamIllegal('order_by is required'));
+        assertNotBlank(req.query.order_type, new ParamIllegal('order_type is required'));
+        assertNotBlank(req.query.offset, new ParamIllegal('offset is required'));
+        assertNotBlank(req.query.limit, new ParamIllegal('limit is required'));
+        const result = await adminService.getAll(
+            req.query.order_by, req.query.order_type, req.query.offset, req.query.limit);
+        responseUtil.success(res, result);
+    } catch (e) {
+        logger().error(`Query all admins request failed, error = ${e}`);
         responseUtil.fail(res, e);
     }
 }

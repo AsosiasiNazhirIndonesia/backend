@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - '80:80'
+      - '3000:3000'
     env_file:
       - ../env/digital-certificate-be.env
     volumes:

@@ -49,12 +49,6 @@ const UserHistory = connection.sequelize.define ('UserHistory', {
     timestamps: false
 });
 
-UserHistory.hasOne(User, {
-    foreignKey: 'user_id'
-});
-UserHistory.belongsTo(User, {
-    foreignKey: 'user_id'
-});
 UserHistory.hasOne(Institution, {
     foreignKey: 'institution_id'
 });

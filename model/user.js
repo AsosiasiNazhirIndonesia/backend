@@ -1,5 +1,6 @@
 import connection from "../database/connection";
 import { DataTypes, UUIDV1 } from "sequelize";
+import UserHistory from "./user_history";
 
 const User = connection.sequelize.define('User', 
     {
@@ -52,5 +53,12 @@ const User = connection.sequelize.define('User',
         timestamps: false
     }
 );
+
+User.hasMany(UserHistory, {
+    foreignKey: 'user_id'
+});
+User.belongsTo(UserHistory, {
+    foreignKey: 'user_id'
+});
 
 export default User;

@@ -10,7 +10,7 @@ const roleService = {}
 roleService.add = async (request) => {
     logger().info(`Add new role, request = ${JSON.stringify(request)}`);
 
-    assertTrue( !(await Role.findOne({ where: {name: request.name} })), 
+    assertTrue( !(await Role.findOne({ where: {name: request.name, deleted_date: {[Op.eq]: null}} })), 
         new ParamIllegal('name already registered'));
 
     const role = await Role.create({
@@ -55,7 +55,7 @@ roleService.delete = async (request) => {
 
 roleService.getAll = async (orderBy, offset, limit) => {
     logger().info(`Get all roles orderBy = ${orderBy} offset = ${offset} limit = ${limit}`);
-    const role = await Role.findAll({order: [ orderBy ], offset: Number(offset), limit: Number(limit)});
+    const role = await Role.findAll({where: {deleted_date: {[Op.eq]: null}}},{order: [ orderBy ], offset: Number(offset), limit: Number(limit)});
     logger().info(`Get all roles success`);
     return role;
 }

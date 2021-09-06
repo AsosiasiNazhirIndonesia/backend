@@ -6,6 +6,7 @@ import routes from './routes';
 import {httpContext, contextMiddleware} from 'express-glass';
 import InternalServerError from './error/internal_server_error';
 import responseUtil from './util/response_util';
+import { notifySigner, sendEmail } from './util/send_email';
 
 const app = express();
 

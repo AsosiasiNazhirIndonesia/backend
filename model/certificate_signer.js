@@ -24,6 +24,11 @@ const CertificateSigner = connection.sequelize.define('CertificateSigner',
             type: DataTypes.NUMBER,
             allowNull: false
         },
+        is_sign: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        },
         created_date: {
             type: DataTypes.NUMBER,
             allowNull: false
