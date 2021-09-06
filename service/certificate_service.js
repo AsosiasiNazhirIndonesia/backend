@@ -66,6 +66,20 @@ certificateService.getAll = async (orderBy, offset, limit) => {
     return certificates;
 }
 
+certificateService.getByAdmin = async (adminId, orderBy, offset, limit) => {
+    logger().info(`Get certificates by adminId = ${adminId} orderBy = ${orderBy} offset = ${offset} limit = ${limit}`);
+    const certificates = await Certificate.findAll({where: {admin_id: adminId}, include: [{model: User}, {model: Admin}, {model: CertificateSigner, include: User}]}, {order: [ [orderBy, "DESC"] ], offset: Number(offset), limit: Number(limit), include: [{model: User}, {model: Admin}, {model: CertificateSigner, include: User}]});
+    logger().info(`Get certificates by adminId sucess`);
+    return certificates;
+}
+
+certificateService.getByUser = async (userId, orderBy, offset, limit) => {
+    logger().info(`Get certificates by userId = ${userId} orderBy = ${orderBy} offset = ${offset} limit = ${limit}`);
+    const certificates = await Certificate.findAll({where: {user_id: userId}, include: [{model: User}, {model: Admin}, {model: CertificateSigner, include: User}]}, {order: [ [orderBy, "DESC"] ], offset: Number(offset), limit: Number(limit)});
+    logger().info(`Get certificates by userId sucess`);
+    return certificates;
+}
+
 certificateService.getByCertificateId = async (certificateId) => {
     logger().info(`Get certificate by certificate_id = ${certificateId}`);
     const certificate = await Certificate.findOne({include: [{model: User}, {model:Admin}, {model: CertificateSigner, include: {model:User}}], where: {certificate_id: certificateId}});

@@ -37,6 +37,36 @@ certificateController.getAll = async (req, res, next) => {
     }
 }
 
+certificateController.getByAdmin = async (req, res, next) => {
+    try {
+        logger().info(`Query certificates by Admin`);
+        assertNotBlank(req.params.admin_id, new ParamIllegal('admin_id is required'));
+        assertNotNull(req.query, new ParamIllegal('query url is required'));
+        assertNotBlank(req.query.order_by, new ParamIllegal('order_by is required'));
+        assertNotBlank(req.query.offset, new ParamIllegal('offset is required'));
+        assertNotBlank(req.query.limit, new ParamIllegal('limit is required'));
+        const result = await certificateService.getByAdmin(req.params.admin_id, req.query.order_by, req.query.offset, req.query.limit);
+        responseUtil.success(res, result);
+    } catch (e) {
+        logger().error(`Query certificates by Admin failed, error = ${e}`);
+    }
+}
+
+certificateController.getByUser = async (req, res, next) => {
+    try {
+        logger().info(`Query certificates by Admin`);
+        assertNotBlank(req.params.user_id, new ParamIllegal('user_id is required'));
+        assertNotNull(req.query, new ParamIllegal('query url is required'));
+        assertNotBlank(req.query.order_by, new ParamIllegal('order_by is required'));
+        assertNotBlank(req.query.offset, new ParamIllegal('offset is required'));
+        assertNotBlank(req.query.limit, new ParamIllegal('limit is required'));
+        const result = await certificateService.getByUser(req.params.user_id, req.query.order_by, req.query.offset, req.query.limit);
+        responseUtil.success(res, result);
+    } catch (e) {
+        logger().error(`Query certificates by Admin failed, error = ${e}`);
+    }
+}
+
 certificateController.getByCertificateId = async (req, res, next) => {
     try {
         logger().info(`Query certificate by certificate_id request`);

@@ -46,6 +46,8 @@ routes.post('/certificates', certificateController.add);
 routes.get('/certificates', certificateController.getAll);
 routes.get('/certificates/:certificate_id', certificateController.getByCertificateId);
 routes.get('/certificates/sc_address/:sc_address', certificateController.getByScAddress);
+routes.get('/certificates/admin_id/:admin_id', certificateController.getByAdmin);
+routes.get('/certificates/user_id/:user_id', certificateController.getByUser);
 
 routes.post('/files', fileController.upload);
 routes.get('/files/:name', fileController.download);
