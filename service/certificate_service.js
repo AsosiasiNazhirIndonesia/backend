@@ -26,10 +26,12 @@ certificateService.add = async (request) => {
             admin_id: request.admin_id,
             title: request.title,
             sc_address: request.sc_address,
+            receiver_name: request.receiver_name,
             no: request.no,
             description: request.description,
             score: request.score,
             date: request.date,
+            logo: request.logo,
             created_date: new Date().getTime(),
             updated_date: null,
             deleted_date: null
@@ -59,7 +61,7 @@ certificateService.add = async (request) => {
 
 certificateService.getAll = async (orderBy, offset, limit) => {
     logger().info(`Get all certificates orderBy = ${orderBy} offset = ${offset} limit = ${limit}`);
-    const certificates = await Certificate.findAll({order: [ orderBy ], offset: Number(offset), limit: Number(limit), include: [{model: User}, {model: Admin}, {model: CertificateSigner, include: User}]});
+    const certificates = await Certificate.findAll({order: [ [orderBy, "DESC"] ], offset: Number(offset), limit: Number(limit), include: [{model: User}, {model: Admin}, {model: CertificateSigner, include: User}]});
     logger().info(`Get all certificates sucess`);
     return certificates;
 }

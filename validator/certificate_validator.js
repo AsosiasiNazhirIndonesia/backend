@@ -14,6 +14,12 @@ const user_id = Joi.string().required().messages({
     "any.required": `user_id is required`
 });
 
+const logo = Joi.string().allow(null).required().messages({
+    "string.base": `logo must be a string`,
+    "string.empty": `logo cannot be an empty`,
+    "any.required": `logo is required`
+});
+
 const name = Joi.string().required().messages({
     "string.base": `name must be a string`,
     "string.empty": `name cannot be an empty`,
@@ -50,6 +56,12 @@ const score = Joi.string().required().messages({
     "any.required": `score is required`
 });
 
+const receiver_name = Joi.string().required().messages({
+    "string.base": `receiver_name must be a string`,
+    "string.empty": `receiver_name cannot be an empty`,
+    "any.required": `receiver_name is required`
+});
+
 const date = Joi.string().required().messages({
     "string.base": `date must be a string`,
     "string.empty": `date cannot be an empty`,
@@ -69,7 +81,9 @@ const certificate_signer = Joi.object().keys({
 certificateValidator.add = Joi.object().keys({
     user_id,
     admin_id,
+    logo,
     sc_address,
+    receiver_name,
     name,
     no,
     title,

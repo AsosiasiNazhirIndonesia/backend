@@ -20,6 +20,10 @@ const Certificate = connection.sequelize.define('Certificate',
             type: DataTypes.STRING,
             allowNull: false
         },
+        logo: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         receiver_name: {
             type: DataTypes.STRING,
             allowNull: false
