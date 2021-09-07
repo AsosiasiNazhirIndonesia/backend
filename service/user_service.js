@@ -93,7 +93,10 @@ userService.login = async (request) => {
 
         const dataToSign = web3.utils.sha3(message);
         const address = web3.eth.accounts.recover(dataToSign, request.signature);
-        assertTrue(address === user.public_key, new ParamIllegal('invalid signature'));
+        console.log(dataToSign);
+        console.log(address);
+        console.log(user.public_key);
+        assertTrue(address.toLowerCase() === user.public_key.toLowerCase(), new ParamIllegal('invalid signature'));
         
         user.login_nonce = user.login_nonce + 1;
         user.updated_date = new Date().getTime();

@@ -42,6 +42,7 @@ export const notifySigner = async (certificateId) => {
     });
 
     let actorToNotify;
+    let isReceiver = false;
     for (const signer of certificateSigners) {
         if (!signer.is_sign) {
             actorToNotify = signer.User;
@@ -51,10 +52,13 @@ export const notifySigner = async (certificateId) => {
 
     if (!actorToNotify) {
         actorToNotify = certificate.User;
+        isReceiver = true;
     }
 
     sendEmail(actorToNotify.email, 'Your Turn To Signing', 'signing-notification.html', {
         receiver_name: actorToNotify.name,
-        contract_address: certificate.sc_address
+        message: isReceiver ? 
+            `Mohon segera menerima ijazah/sertificate dengan contract address ${certificate.sc_address}` : 
+            `Mohon segera menandatangani ijazah/sertificate dengan contract address ${certificate.sc_address}`
     })
 }
