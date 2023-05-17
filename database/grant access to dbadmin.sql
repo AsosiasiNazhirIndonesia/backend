@@ -1,0 +1,5 @@
+CREATE USER 'dbadmin'@'localhost' IDENTIFIED BY 'P@ssw0rdP@ssw0rd';
+GRANT ALL PRIVILEGES ON *.* TO 'dbadmin'@'localhost' WITH GRANT OPTION;
+CREATE USER 'dbadmin'@'%' IDENTIFIED BY 'P@ssw0rdP@ssw0rd';
+GRANT ALL PRIVILEGES ON *.* TO 'dbadmin'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
