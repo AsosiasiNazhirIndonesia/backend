@@ -58,6 +58,7 @@ const institution_id = Joi.string().allow(null).required().messages({
 });
 
 adminValidator.add = Joi.object().keys({
+    admin_id,
     name,
     photo,
     email,

@@ -23,6 +23,22 @@ certificateController.add = async (req, res, next) => {
     }
 }
 
+certificateController.update = async (req, res, next) => {
+    try {
+        logger().info(`Add new certificate request, data = ${JSON.stringify(req.body)}`);
+        const validationResult = certificateValidator.update.validate(req.body);
+        if (validationResult.error) {
+            throw new ParamIllegal(validationResult.error.message);
+        }
+        const value = validationResult.value;
+        const result = await certificateService.update(value);
+        responseUtil.success(res, result);
+    } catch (e) {
+        logger().info(`Update certificate failed, error = ${e}`);
+        responseUtil.fail(res, e);
+    }
+}
+
 certificateController.sign = async (req, res, next) => {
     try {
         logger().info(`Signing certificate request, data = ${JSON.stringify(req.body)}`);
@@ -38,6 +54,8 @@ certificateController.sign = async (req, res, next) => {
         responseUtil.fail(res, e);
     }
 }
+
+
 
 certificateController.getAll = async (req, res, next) => {
     try {
@@ -96,15 +114,16 @@ certificateController.getByCertificateId = async (req, res, next) => {
     }
 }
 
-certificateController.getByScAddress = async (req, res, next) => {
+certificateController.getByScAddressAndTokenId = async (req, res, next) => {
     try {
-        logger().info(`Query certificate by sc_address request`);
+        logger().info(`Query certificate by sc_address and token_id request`);
         assertNotNull(req.params, new ParamIllegal('query is required'));
         assertNotBlank(req.params.sc_address, new ParamIllegal('sc_address is required'));
-        const result = await certificateService.getByScAddress(req.params.sc_address);
+        // assertNotBlank(req.params.token_id, new ParamIllegal('token_id is required'));
+        const result = await certificateService.getByScAddressAndTokenId(req.params.sc_address,req.params.token_id);
         responseUtil.success(res, result);
     } catch (e) {
-        logger().error(`Query certificate by sc_address failed, error = ${e}`);
+        logger().error(`Query certificate by sc_address and token_id failed, error = ${e}`);
         responseUtil.fail(res, e);
     }
 }

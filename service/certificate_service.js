@@ -29,6 +29,7 @@ certificateService.add = async (request) => {
             title: request.title,
             receiver_name: request.receiver_name,
             sc_address: request.sc_address,
+            token_id: request.token_id,
             receiver_name: request.receiver_name,
             no: request.no,
             description: request.description,
@@ -37,7 +38,8 @@ certificateService.add = async (request) => {
             logo: request.logo,
             created_date: new Date().getTime(),
             updated_date: null,
-            deleted_date: null
+            deleted_date: null,
+            certificate_type: request.certificate_type
         }, { transaction: dbTransaction});
 
         for (const signer of request.certificate_signers) {
@@ -63,6 +65,35 @@ certificateService.add = async (request) => {
     }
 }
 
+certificateService.update = async (request) => {
+    logger().info(`Update certificate, request = ${JSON.stringify(request)}`);
+    const certificate = await Certificate.findOne({ where: {certificate_id: request.certificate_id} });
+    assertNotNull(certificate, new DataNotFound('certificate not found'));
+    // assertTrue( !(await Certificate.findOne({ where: { [Op.and]: { certificate_id: { [Op.ne]: request.certificate_id }, name: request.name } } })),
+    //     new ParamIllegal('name already registered'));
+    
+    certificate.name = request.name;
+    certificate.user_id = request.user_id;
+    certificate.admin_id = request.admin_id;
+    certificate.title = request.title;
+    certificate.receiver_name = request.receiver_name;
+    certificate.sc_address = request.sc_address;
+    certificate.token_id = request.token_id;
+    certificate.receiver_name = request.receiver_name;
+    certificate.no = request.no;
+    certificate.description = request.description;
+    certificate.score = request.score;
+    certificate.date = request.date;
+    certificate.logo = request.logo;
+    certificate.updated_date = new Date().getTime();
+    certificate.is_accepted = request.is_accepted;
+    certificate.certificate_type = request.certificate_type;
+    await certificate.save();
+
+    logger().info(`Update certificate success`);
+    return certificate;
+}
+
 certificateService.signing = async (request) => {
     logger().info(`Signing certificate request = ${JSON.stringify(request)}`);
     const certificateSigner = await CertificateSigner.findOne({where: {certificate_id: request.certificate_id, user_id: request.user_id}});
@@ -72,6 +103,7 @@ certificateService.signing = async (request) => {
     notifySigner(certificateSigner.certificate_id);
     logger().info(`Success to signing certificate`);
 }
+
 
 certificateService.getAll = async (orderBy, offset, limit) => {
     logger().info(`Get all certificates orderBy = ${orderBy} offset = ${offset} limit = ${limit}`);
@@ -108,10 +140,10 @@ certificateService.getByCertificateId = async (certificateId) => {
     return certificate;
 }
 
-certificateService.getByScAddress = async (scAddress) => {
-    logger().info(`Get certificate by sc_address = ${scAddress}`);
-    const certificate = await Certificate.findOne({include: [{model: User}, {model:Admin}, {model: CertificateSigner, include: {model:User}}], where: {sc_address: scAddress}});
-    logger().info(`Get certificate by sc_address success`);
+certificateService.getByScAddressAndTokenId = async (scAddress, tokenId) => {
+    logger().info(`Get certificate by sc_address = ${scAddress} and token_id = ${tokenId}`);
+    const certificate = await Certificate.findOne({include: [{model: User}, {model:Admin}, {model: CertificateSigner, include: {model:User}}], where: {sc_address: scAddress, token_id: tokenId}});
+    logger().info(`Get certificate by sc_address and token_id success`);
     return certificate;
 }
 

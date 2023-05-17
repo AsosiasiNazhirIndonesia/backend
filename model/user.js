@@ -22,15 +22,24 @@ const User = connection.sequelize.define('User',
             type: DataTypes.STRING,
             allowNull: false
         },
+        address: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         phone_number: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         public_key: {
             type: DataTypes.STRING,
             allowNull: false
         },
         login_nonce: {
+            type: DataTypes.NUMBER,
+            allowNull: false,
+            defaultValue: 0 
+        },
+        is_certified: {
             type: DataTypes.NUMBER,
             allowNull: false,
             defaultValue: 0 

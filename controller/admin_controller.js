@@ -9,6 +9,8 @@ const adminController = {}
 
 adminController.add = async (req, res, next) => {
     try {
+        logger().info(`#################################`);
+        logger().info(`${JSON.stringify(req.body)}`);
         logger().info(`Add new admin request, data = ${JSON.stringify(req.body)}`);
         const validationResult = adminValidator.add.validate(req.body);
         if (validationResult.error) {

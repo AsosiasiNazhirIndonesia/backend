@@ -39,12 +39,19 @@ const institution_id = Joi.string().required().messages({
     "any.required": `institution_id is required`
 });
 
+const sc_address = Joi.string().required().messages({
+    "string.base": `sc_address must be a string`,
+    "string.empty": `sc_address cannot be an empty`,
+    "any.required": `sc_address is required`
+});
+
 institutionValidator.add = Joi.object().keys({
     name,
     email,
     phone_number,
     address,
-    type
+    type,
+    sc_address
 });
 
 institutionValidator.update = Joi.object().keys({
@@ -53,7 +60,8 @@ institutionValidator.update = Joi.object().keys({
     email,
     phone_number,
     address,
-    type
+    type,
+    sc_address
 });
 
 institutionValidator.delete = Joi.object().keys({

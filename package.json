@@ -10,9 +10,10 @@
     "start": "npm run build && node dist/index.js",
     "babel": "babel-node index.js"
   },
-  "author": "Fadhlan Ridhwanallah",
+  "author": "SoulboundNFT.id",
   "license": "ISC",
   "dependencies": {
+    "@magic-sdk/admin": "^1.8.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",

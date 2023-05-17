@@ -29,6 +29,7 @@ adminService.add = async (request) => {
     }
 
     const admin = await Admin.create({
+        admin_id: request.admin_id,
         name: request.name,
         photo: request.photo,
         email: request.email,

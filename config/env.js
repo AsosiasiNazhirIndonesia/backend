@@ -20,6 +20,8 @@ const env = {
 
     MAILER_ADDRESS: process.env.MAILER_ADDRESS,
     MAILER_PASSWORD: process.env.MAILER_PASSWORD,
+
+    MAGIC_SECRET_KEY: process.env.MAGIC_SECRET_KEY,
 }
 
 export default env;

@@ -7,7 +7,11 @@ const Institution = connection.sequelize.define('Institution', {
         primaryKey: true,
         allowNull: false,
         defaultValue: UUIDV1
-    }, 
+    },     
+    sc_address: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     name: {
         type: DataTypes.STRING,
         allowNull: false

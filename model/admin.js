@@ -7,8 +7,8 @@ const Admin = connection.sequelize.define('Admin',
         admin_id: {
             type: DataTypes.STRING,
             primaryKey: true,
-            allowNull: false,
-            defaultValue: UUIDV1
+            allowNull: true
+            // defaultValue: UUIDV1
         },
         name: {
             type: DataTypes.STRING,

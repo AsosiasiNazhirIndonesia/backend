@@ -32,6 +32,10 @@ const Certificate = connection.sequelize.define('Certificate',
             type: DataTypes.STRING,
             allowNull: false
         },
+        token_id: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         name: {
             type: DataTypes.STRING,
             allowNull: false
@@ -52,6 +56,11 @@ const Certificate = connection.sequelize.define('Certificate',
             type: DataTypes.NUMBER,
             allowNull: false
         },
+        is_accepted: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,            
+            defaultValue: false
+        },
         date: {
             type: DataTypes.NUMBER,
             allowNull: false
@@ -67,6 +76,10 @@ const Certificate = connection.sequelize.define('Certificate',
         deleted_date: {
             type: DataTypes.NUMBER,
             allowNull: true
+        },        
+        certificate_type_id: {
+            type: DataTypes.STRING,
+            allowNull: false
         },
     },
     {

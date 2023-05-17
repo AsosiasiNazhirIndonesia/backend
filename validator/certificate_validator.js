@@ -14,6 +14,12 @@ const user_id = Joi.string().required().messages({
     "any.required": `user_id is required`
 });
 
+const certificate_type_id = Joi.string().required().messages({
+    "string.base": `certificate_type_id must be a string`,
+    "string.empty": `certificate_type_id cannot be an empty`,
+    "any.required": `certificate_type_id is required`
+});
+
 const logo = Joi.string().allow(null).required().messages({
     "string.base": `logo must be a string`,
     "string.empty": `logo cannot be an empty`,
@@ -38,6 +44,12 @@ const sc_address = Joi.string().required().messages({
     "any.required": `sc_address is required`
 });
 
+const token_id = Joi.string().required().messages({
+    "string.base": `token_id must be a string`,
+    "string.empty": `token_id cannot be an empty`,
+    "any.required": `token_id is required`
+});
+
 const no = Joi.string().required().messages({
     "string.base": `no must be a string`,
     "string.empty": `no cannot be an empty`,
@@ -60,6 +72,12 @@ const score = Joi.string().required().messages({
     "string.base": `score must be a string`,
     "string.empty": `score cannot be an empty`,
     "any.required": `score is required`
+});
+
+const is_accepted = Joi.string().required().messages({
+    "string.base": `is_accepted must be a string`,
+    "string.empty": `is_accepted cannot be an empty`,
+    "any.required": `is_accepted is required`
 });
 
 const date = Joi.string().required().messages({
@@ -90,18 +108,38 @@ certificateValidator.add = Joi.object().keys({
     receiver_name,
     logo,
     sc_address,
+    token_id,
     name,
     no,
     title,
     description,
     score,
     date,
+    certificate_type_id,
     certificate_signers: Joi.array().items(certificate_signer).min(1)
         .required().messages({
             "array.base": `certificate_signers must be json array`,
             "array.min": `certificate_signers must include minimum one object`,
             "any.required": `certificate_signers is required`
         })
+});
+
+certificateValidator.update = Joi.object().keys({
+    certificate_id,
+    user_id,
+    admin_id,
+    receiver_name,
+    logo,
+    sc_address,
+    token_id,
+    name,
+    no,
+    title,
+    description,
+    score,
+    date,
+    is_accepted,
+    certificate_type_id
 });
 
 certificateValidator.sign = Joi.object().keys({

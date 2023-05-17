@@ -21,6 +21,7 @@ institutionService.add = async (request) => {
         phone_number: request.phone_number,
         address: request.address,
         type: request.type,
+        sc_address: request.sc_address, // TO DO
         created_date: new Date().getTime(),
         updated_date: null,
         deleted_date: null

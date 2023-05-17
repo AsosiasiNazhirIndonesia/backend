@@ -8,6 +8,7 @@ import InternalServerError from './error/internal_server_error';
 import responseUtil from './util/response_util';
 import { notifySigner, sendEmail } from './util/send_email';
 
+
 const app = express();
 
 // Add headers
@@ -51,6 +52,8 @@ app.use(function(err, req, res, next) {
         data: {}
     });
 });
+
+
 
 export default app;
 

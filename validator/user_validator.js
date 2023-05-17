@@ -20,17 +20,17 @@ const public_key = Joi.string().required().messages({
     "any.required": `public_key is required`
 });
 
-const phone_number = Joi.string().required().messages({
-    "string.base": `phone_number must be a string`,
-    "string.empty": `phone_number cannot be an empty`,
-    "any.required": `phone_number is required`
-});
+// const phone_number = Joi.string().required().messages({
+//     "string.base": `phone_number must be a string`,
+//     "string.empty": `phone_number cannot be an empty`,
+//     "any.required": `phone_number is required`
+// });
 
-const photo = Joi.string().allow(null).required().messages({
-    "string.base": `photo must be a string`,
-    "string.empty": `photo cannot be an empty`,
-    "any.required": `photo is required`
-});
+// const photo = Joi.string().allow(null).required().messages({
+//     "string.base": `photo must be a string`,
+//     "string.empty": `photo cannot be an empty`,
+//     "any.required": `photo is required`
+// });
 
 const user_id = Joi.string().required().messages({
     "string.base": `user_id must be a string`,
@@ -47,8 +47,8 @@ const signature = Joi.string().required().messages({
 userValidator.add = Joi.object().keys({
     name,
     email,
-    phone_number,
-    photo,
+    // phone_number,
+    // photo,
     public_key
 });
 
@@ -56,8 +56,8 @@ userValidator.update = Joi.object().keys({
     user_id,
     name,
     email,
-    phone_number,
-    photo,
+    // phone_number,
+    // photo,
     public_key
 });
 

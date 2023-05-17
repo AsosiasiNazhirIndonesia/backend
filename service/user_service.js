@@ -19,16 +19,16 @@ userService.add = async (request) => {
 
     assertTrue( !(await User.findOne({ where: {email: request.email} })),
         new ParamIllegal('email already registered'));
-    assertTrue( !(await User.findOne({ where: {phone_number: request.phone_number} })),
-        new ParamIllegal('phone_number already registered'));
+    // assertTrue( !(await User.findOne({ where: {phone_number: request.phone_number} })),
+    //     new ParamIllegal('phone_number already registered'));
     assertTrue( !(await User.findOne({ where: {public_key: request.public_key} })),
         new ParamIllegal('public_key already registered'));
 
     const user = await User.create({
         name: request.name,
         email: request.email,
-        phone_number: request.phone_number,
-        photo: request.photo,
+        // phone_number: request.phone_number,
+        // photo: request.photo,
         public_key: request.public_key,
         created_date: new Date().getTime(),
         updated_date: null,
@@ -53,6 +53,7 @@ userService.update = async (request) => {
     user.name = request.name;
     user.photo = request.photo;
     user.email = request.email;
+    user.address = request.address;
     user.phone_number = request.phone_number;
     user.public_key = request.public_key;
     user.updated_date = new Date().getTime();
@@ -90,7 +91,6 @@ userService.login = async (request) => {
         const user = await User.findOne({where: { user_id: request.user_id }, transaction: dbTransaction, lock: dbTransaction.LOCK.UPDATE});
         assertNotNull(user, new DataNotFound('user not found'));
         const message = `${env.PREFIX_SIGNATURE_DATA}${user.login_nonce}`;
-
         const dataToSign = web3.utils.sha3(message);
         const address = web3.eth.accounts.recover(dataToSign, request.signature);
         console.log(dataToSign);

@@ -3,9 +3,11 @@ import adminController from './controller/admin_controller';
 import certificateController from './controller/certificate_controller';
 import fileController from './controller/file_controller';
 import institutionController from './controller/institution_controller';
+import certificateTypeController from './controller/certificate_type_controller';
 import roleController from './controller/role_controller';
 import userController from './controller/user_controller';
 import userHistoryController from './controller/user_history_controller';
+import magicController from './controller/magic_controller';
 
 const routes = express();
 
@@ -29,6 +31,12 @@ routes.delete('/institutions', institutionController.delete);
 routes.get('/institutions', institutionController.getAll);
 routes.get('/institutions/:institution_id', institutionController.getByInstitutionId);
 
+routes.post('/certificatetypes', certificateTypeController.add);
+routes.put('/certificatetypes', certificateTypeController.update);
+routes.delete('/certificatetypes', certificateTypeController.delete);
+routes.get('/certificatetypes', certificateTypeController.getAll);
+routes.get('/certificatetypes/:certificate_type_id', certificateTypeController.getByCertificateTypeId);
+
 routes.post('/roles', roleController.add);
 routes.put('/roles', roleController.update);
 routes.delete('/roles', roleController.delete);
@@ -43,14 +51,17 @@ routes.get('/user_history/:user_history_id', userHistoryController.getByUserHist
 routes.get('/user_history/user_id/:user_id', userHistoryController.getByUserId);
 
 routes.post('/certificates', certificateController.add);
+routes.put('/certificates', certificateController.update);
 routes.post('/certificates/signing', certificateController.sign);
 routes.get('/certificates', certificateController.getAll);
 routes.get('/certificates/:certificate_id', certificateController.getByCertificateId);
-routes.get('/certificates/sc_address/:sc_address', certificateController.getByScAddress);
+routes.get('/certificates/sc_address_token_id/:sc_address/:token_id', certificateController.getByScAddressAndTokenId);
 routes.get('/certificates/admin_id/:admin_id', certificateController.getByAdmin);
 routes.get('/certificates/user_id/:user_id', certificateController.getByUser);
 
 routes.post('/files', fileController.upload);
 routes.get('/files/:name', fileController.download);
+
+routes.post('/login', magicController.login);
 
 export default routes;
