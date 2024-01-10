@@ -96,11 +96,6 @@ adminService.login = async (request) => {
     try {
         const admin = await Admin.findOne({where: { admin_id: request.admin_id }, transaction: dbTransaction, lock: dbTransaction.LOCK.UPDATE});
         assertNotNull(admin, new DataNotFound('admin not found'));
-        const message = `${env.PREFIX_SIGNATURE_DATA}${admin.login_nonce}`;
-
-        const dataToSign = web3.utils.sha3(message);
-        const address = web3.eth.accounts.recover(dataToSign, request.signature);
-        assertTrue(address === admin.public_key, new ParamIllegal('invalid signature'));
         
         admin.login_nonce = admin.login_nonce + 1;
         admin.updated_date = new Date().getTime();

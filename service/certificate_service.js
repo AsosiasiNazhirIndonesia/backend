@@ -39,7 +39,7 @@ certificateService.add = async (request) => {
             created_date: new Date().getTime(),
             updated_date: null,
             deleted_date: null,
-            certificate_type: request.certificate_type
+            certificate_type_id: request.certificate_type_id
         }, { transaction: dbTransaction});
 
         for (const signer of request.certificate_signers) {
