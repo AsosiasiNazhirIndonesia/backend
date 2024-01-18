@@ -57,7 +57,7 @@ export const notifySigner = async (certificateId) => {
 
     sendEmail(actorToNotify.email, 'Your Turn To Signing', 'signing-notification.html', {
         receiver_name: actorToNotify.name,
-        url: `http://blockchainworks.id:8080/dashboard/USER?menu=manage-certificate&view_certificate=true&certificate_id=${certificate.certificate_id}`,
+        url: `https://in-distinctly-rattler.ngrok-free.app/dashboard/USER?menu=manage-certificate&view_certificate=true&certificate_id=${certificate.certificate_id}`,
         message: isReceiver ? 
             `Selamat sebuah ijazah untuk anda dengan contract address ${certificate.sc_address} dan NFT ID ${certificate.token_id} telah ditandatani seluruh pihak. Mohon segera menyetujui sertifikat tersebut.` : 
             `Sebuah ijazah/sertifikat dengan contract address ${certificate.sc_address} dan NFT ID ${certificate.token_id} membutuhkan tanda tangan anda. Mohon segera menandatangani ijazah/sertificate tersebut.`
