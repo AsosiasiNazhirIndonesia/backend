@@ -3,7 +3,7 @@ dotenv.config();
 const env = { 
     PORT: 3001,//process.env.PORT,
 
-    DB_HOST: '13.214.196.5',//process.env.DB_HOST,
+    DB_HOST: '10.0.1.1',//process.env.DB_HOST,
     DB_PORT: 3306, //process.env.DB_PORT,
     DB_NAME: 'digicert',//process.env.DB_NAME,
     DB_USERNAME: 'root',//process.env.DB_USERNAME,
