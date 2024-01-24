@@ -3,7 +3,7 @@ dotenv.config();
 const env = { 
     PORT: 3001,//process.env.PORT,
 
-    DB_HOST: '10.0.1.1',//process.env.DB_HOST,
+    DB_HOST: 'localhost',//process.env.DB_HOST,
     DB_PORT: 3306, //process.env.DB_PORT,
     DB_NAME: 'digicert',//process.env.DB_NAME,
     DB_USERNAME: 'root',//process.env.DB_USERNAME,
@@ -16,7 +16,7 @@ const env = {
     FILE_STORAGE: process.env.FILE_STORAGE,
     FILE_MAXIMUM_SIZE: process.env.FILE_MAXIMUM_SIZE,
 
-    ETHER_CLIENT: 'https://ethereum-sepolia.publicnode.com',//process.env.ETHER_CLIENT,
+    ETHER_CLIENT: 'https://ethereum-goerli.publicnode.com',//process.env.ETHER_CLIENT,
 
     MAILER_ADDRESS: 'monocerusworld@gmail.com',
     MAILER_PASSWORD: 'jljlakwfjzjmfwek',
