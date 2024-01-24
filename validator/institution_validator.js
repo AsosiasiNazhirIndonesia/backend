@@ -61,7 +61,7 @@ institutionValidator.update = Joi.object().keys({
     phone_number,
     address,
     type,
-    sc_address
+    // sc_address
 });
 
 institutionValidator.delete = Joi.object().keys({
