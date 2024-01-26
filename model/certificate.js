@@ -81,6 +81,10 @@ const Certificate = connection.sequelize.define('Certificate',
             type: DataTypes.STRING,
             allowNull: false
         },
+        status: {
+            type: DataTypes.TINYINT,
+            allowNull: false
+        },
     },
     {
         tableName: 'certificate',

@@ -116,6 +116,7 @@ certificateValidator.add = Joi.object().keys({
     score,
     date,
     certificate_type_id,
+    status,
     certificate_signers: Joi.array().items(certificate_signer).min(1)
         .required().messages({
             "array.base": `certificate_signers must be json array`,
@@ -139,7 +140,8 @@ certificateValidator.update = Joi.object().keys({
     score,
     date,
     is_accepted,
-    certificate_type_id
+    certificate_type_id,
+    status
 });
 
 certificateValidator.sign = Joi.object().keys({
