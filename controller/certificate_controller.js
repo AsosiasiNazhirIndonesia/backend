@@ -25,7 +25,7 @@ certificateController.add = async (req, res, next) => {
 
 certificateController.update = async (req, res, next) => {
     try {
-        logger().info(`Add new certificate request, data = ${JSON.stringify(req.body)}`);
+        logger().info(`Update certificate request, data = ${JSON.stringify(req.body)}`);
         const validationResult = certificateValidator.update.validate(req.body);
         if (validationResult.error) {
             throw new ParamIllegal(validationResult.error.message);
@@ -119,7 +119,7 @@ certificateController.getByScAddressAndTokenId = async (req, res, next) => {
         logger().info(`Query certificate by sc_address and token_id request`);
         assertNotNull(req.params, new ParamIllegal('query is required'));
         assertNotBlank(req.params.sc_address, new ParamIllegal('sc_address is required'));
-        // assertNotBlank(req.params.token_id, new ParamIllegal('token_id is required'));
+        assertNotBlank(req.params.token_id, new ParamIllegal('token_id is required'));
         const result = await certificateService.getByScAddressAndTokenId(req.params.sc_address,req.params.token_id);
         responseUtil.success(res, result);
     } catch (e) {

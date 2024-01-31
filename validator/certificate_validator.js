@@ -97,6 +97,11 @@ const priority = Joi.number().required().messages({
     "any.required": `priority is required`
 });
 
+const status = Joi.number().required().messages({
+    "number.base": `status must be a number`,
+    "any.required": `status is required`
+});
+
 const certificate_signer = Joi.object().keys({
     user_id,
     priority
@@ -116,7 +121,6 @@ certificateValidator.add = Joi.object().keys({
     score,
     date,
     certificate_type_id,
-    status,
     certificate_signers: Joi.array().items(certificate_signer).min(1)
         .required().messages({
             "array.base": `certificate_signers must be json array`,

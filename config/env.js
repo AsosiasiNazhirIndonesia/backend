@@ -16,7 +16,7 @@ const env = {
     FILE_STORAGE: process.env.FILE_STORAGE,
     FILE_MAXIMUM_SIZE: process.env.FILE_MAXIMUM_SIZE,
 
-    ETHER_CLIENT: 'https://ethereum-goerli.publicnode.com',//process.env.ETHER_CLIENT,
+    ETHER_CLIENT: 'https://ethereum-sepolia.publicnode.com',//process.env.ETHER_CLIENT,
 
     MAILER_ADDRESS: 'monocerusworld@gmail.com',
     MAILER_PASSWORD: 'jljlakwfjzjmfwek',

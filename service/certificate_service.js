@@ -89,6 +89,7 @@ certificateService.update = async (request) => {
     certificate.updated_date = new Date().getTime();
     certificate.is_accepted = request.is_accepted;
     certificate.certificate_type = request.certificate_type;
+    certificate.status = request.status;
     await certificate.save();
 
     logger().info(`Update certificate success`);
